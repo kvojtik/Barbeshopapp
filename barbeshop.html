@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Barber Shop — Rezervace</title>
+  <!-- Google Fonts - Fancy styl -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg-1: #08090d;
+      --bg-2: #0e0f17;
+      --card: rgba(255,255,255,0.04);
+      --glass: rgba(255,255,255,0.03);
+      --accent: #c59d5f; /* Zlatavá barva */
+      --accent-2: #d4af37; /* Tmavší zlatá */
+      --muted: #b0b8c3;
+      --glass-border: rgba(255,255,255,0.06);
+      --glass-glow: 0 6px 20px rgba(0,0,0,0.6);
+      --radius: 14px;
+      font-family: 'Montserrat', sans-serif;
+    }
+    body{
+      margin:0;
+      background: radial-gradient(1200px 800px at 10% 10%, rgba(212,175,55,0.05), transparent),
+                  linear-gradient(180deg,var(--bg-1),var(--bg-2));
+      color:#f0f0f0;
+      line-height:1.4;
+      font-family: 'Montserrat', sans-serif;
+    }
+    h1,h2,h3,h4,h5,h6{
+      font-family: 'Cinzel', serif;
+      letter-spacing:0.5px;
+    }
+    header{
+      position:sticky;top:12px;z-index:50;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;
+      max-width:1200px;margin:0 auto;backdrop-filter: blur(6px);border-radius:999px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid var(--glass-border);
+      box-shadow: var(--glass-glow);
+      transform:translateY(0);animation:slideDown .6s cubic-bezier(.2,.9,.3,1);
+    }
+    nav a{color:var(--muted);text-decoration:none;padding:8px 12px;border-radius:10px;transition:all .18s;font-weight:600}
+    nav a:hover{color:var(--accent);transform:translateY(-2px)}
+    .btn{background:linear-gradient(90deg,var(--accent),var(--accent-2));border:none;padding:8px 14px;border-radius:10px;color:#08121a;cursor:pointer;font-weight:600;box-shadow:0 3px 8px rgba(0,0,0,0.4)}
+    main{max-width:1200px;margin:40px auto;padding:0 16px;}
+    section{margin:64px 0;}
+    h2{color:var(--accent);margin-bottom:20px;}
+    .barbers{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;}
+    .barber{flex:1;background:var(--card);padding:14px;border-radius:12px;display:flex;gap:12px;align-items:center;transition:transform .18s;box-shadow:0 3px 10px rgba(0,0,0,0.3)}
+    .barber:hover{transform:translateY(-6px);box-shadow:0 6px 14px rgba(0,0,0,0.4)}
+    .avatar{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;box-shadow:0 4px 10px rgba(0,0,0,0.4)}
+    .avatar svg{fill:#08121a}
+    .services{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;}
+    .service{background:var(--glass);padding:14px;border-radius:12px;border:1px solid var(--glass-border);transition:transform .18s;box-shadow:0 3px 10px rgba(0,0,0,0.3)}
+    .service:hover{transform:translateY(-6px);box-shadow:0 6px 16px rgba(0,0,0,0.4)}
+    .calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:20px;}
+    .day{background:var(--glass);padding:12px;text-align:center;border-radius:10px;cursor:pointer;transition:all .18s;border:1px solid var(--glass-border)}
+    .day:hover{background:var(--accent);color:#08121a}
+    .reserved{background:#333;color:#777;cursor:not-allowed}
+    footer{margin-top:32px;padding:28px 0;color:var(--muted);text-align:center;font-family:'Cinzel', serif;letter-spacing:1px}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <div class="avatar" style="width:44px;height:44px;border-radius:12px;">
+        <svg width="24" height="24" viewBox="0 0 24 24"><path d="M7 5a2 2 0 100 4 2 2 0 000-4zm10 0a2 2 0 100 4 2 2 0 000-4zM2 20l20-8M2 12l20 8" stroke="#08121a" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+      <div>
+        <div style="font-weight:700;font-family:'Cinzel', serif;">Barber Shop</div>
+        <div class="small muted">U Labutě 37 — barbershop@gmail.com</div>
+      </div>
+    </div>
+    <nav>
+      <a href="#about">O nás</a>
+      <a href="#services">Služby</a>
+      <a href="#reservation" class="btn">Rezervace</a>
+      <a href="#contact">Kontakt</a>
+    </nav>
+  </header>
+  <main>
+    <section id="about">
+      <h2>O nás</h2>
+      <p>Vítejte v Barber Shopu. Nabízíme profesionální střihy a styling v luxusní atmosféře. Naši zkušení barberové Alžběta a Jakub jsou připraveni postarat se o váš vzhled.</p>
+    </section>
+    <section id="services">
+      <h2>Služby</h2>
+      <div class="barbers">
+        <div class="barber">
+          <div class="avatar">
+            <svg width="32" height="32" viewBox="0 0 24 24"><path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z"/></svg>
+          </div>
+          <div>
+            <h3>Alžběta</h3>
+            <p>Specialistka na moderní střihy a styling.</p>
+          </div>
+        </div>
+        <div class="barber">
+          <div class="avatar">
+            <svg width="32" height="32" viewBox="0 0 24 24"><path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z"/></svg>
+          </div>
+          <div>
+            <h3>Jakub</h3>
+            <p>Expert na klasické střihy a precizní úpravy vousů.</p>
+          </div>
+        </div>
+      </div>
+      <div class="services">
+        <div class="service"><h4>Junior střih</h4><p>350 Kč</p></div>
+        <div class="service"><h4>Senior střih</h4><p>500 Kč</p></div>
+        <div class="service"><h4>Expert střih</h4><p>750 Kč</p></div>
+      </div>
+    </section>
+    <section id="reservation">
+      <h2>Rezervace</h2>
+      <p>Vyberte si datum a čas, a rezervujte si termín u našeho barbera.</p>
+      <div class="calendar" id="calendar"></div>
+    </section>
+    <section id="contact">
+      <h2>Kontakt</h2>
+      <p>Email: <a href="mailto:barbershop@gmail.com">barbershop@gmail.com</a></p>
+      <p>Adresa: U Labutě 37</p>
+    </section>
+  </main>
+  <footer>
+    <p>© 2025 Barber Shop — Všechna práva vyhrazena</p>
+  </footer>
+  <script>
+    const calendarEl = document.getElementById('calendar');
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = today.getMonth();
+    const daysInMonth = new Date(year, month+1, 0).getDate();
+    for(let i=1;i<=daysInMonth;i++){
+      const day = document.createElement('div');
+      day.className = 'day';
+      day.textContent = i;
+      day.addEventListener('click', ()=>{
+        if(!day.classList.contains('reserved')){
+          day.classList.add('reserved');
+          alert('Rezervace vytvořena na datum: '+i+'.'+(month+1)+'.'+year);
+        }
+      });
+      calendarEl.appendChild(day);
+    }
+  </script>
+</body>
+</html>
